@@ -1,21 +1,17 @@
 import React, { PropTypes } from 'react'
-import { Route, Router } from 'react-router'
-import lazyLoad from 'helpers/lazyLoad'
+import { Route, Router, IndexRoute } from 'react-router'
+import App from 'components/App'
+import HomePage from 'pages/HomePage'
+import AboutPage from 'pages/AboutPage'
+import NotFoundPage from 'pages/NotFoundPage'
 
 const Routes = ({ history }) => (
   <Router history={history}>
-    <Route
-      path="/"
-      getComponent={lazyLoad(() => System.import('pages/HomePage'))}
-    />
-    <Route
-      path="/about"
-      getComponent={lazyLoad(() => System.import('pages/AboutPage'))}
-    />
-    <Route
-      path="*"
-      getComponent={lazyLoad(() => System.import('pages/NotFoundPage'))}
-    />
+    <Route path="/" component={App}>
+      <IndexRoute component={HomePage} />
+      <Route path="about" component={AboutPage} />
+    </Route>
+    <Route path="*" component={NotFoundPage} />
   </Router>
 )
 
