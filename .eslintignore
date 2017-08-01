@@ -1,0 +1,4 @@
+node_modules
+generator/node_modules
+dist
+**/*.spec.js

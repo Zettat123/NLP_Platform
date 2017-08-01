@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+  font-family: 'PingFang SC', 'Helvetica', 'Roboto', 'Microsoft Yahei', 'Arial', sans-serif;
+}
+
+:global {
+  .container {
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
