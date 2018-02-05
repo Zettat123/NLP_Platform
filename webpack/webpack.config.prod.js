@@ -1,10 +1,6 @@
-const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const AliyunOSSWebpackPlugin = require('aliyunoss-webpack-plugin')
 const baseConfig = require('./webpack.config')
-
-const shouldUploadToOSS = process.env.UPLOAD_TO_OSS === 'true'
 
 const plugins = baseConfig.plugins.concat([
   new webpack.DefinePlugin({
@@ -16,22 +12,6 @@ const plugins = baseConfig.plugins.concat([
     output: { comments: false },
   }),
 ])
-
-if (shouldUploadToOSS) {
-  plugins.push(
-    new AliyunOSSWebpackPlugin({
-      buildPath: path.resolve(__dirname, '../dist/*.*'),
-      region: '', // TODO 填写OSS的region
-      accessKeyId: '', // TODO 填写OSS的accessKeyId
-      accessKeySecret: '', // TODO 填写OSS的accessKeySecret
-      bucket: '', // TODO 填写OSS的bucket
-      generateObjectPath(filename) {
-        // 该方法用于修改文件名称，可以在文件名前加路径以确定文件存储位置，默认为原文件名
-        return filename
-      },
-    })
-  )
-}
 
 const prodConfig = Object.assign({}, baseConfig, {
   plugins,
