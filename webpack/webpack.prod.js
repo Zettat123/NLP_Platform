@@ -9,6 +9,7 @@ module.exports = merge(baseConfig, {
     new CleanWebpackPlugin(['../dist'], {
       allowExternal: true,
     }),
+    // eslint-disable-next-line max-len
     // @see https://stackoverflow.com/questions/39130860/minified-code-outside-of-node-env-production-this-means-slower-developmen
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': "'production'",
