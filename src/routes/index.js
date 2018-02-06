@@ -1,23 +1,23 @@
-import React, { PropTypes } from 'react'
-import { Route, Router, IndexRoute } from 'react-router'
-import App from 'components/App'
-import HomePage from 'pages/HomePage'
-import AboutPage from 'pages/AboutPage'
-import NotFoundPage from 'pages/NotFoundPage'
+import React from 'react'
+import { Route, BrowserRouter, Switch } from 'react-router-dom'
+import { ConnectedRouter } from 'react-router-redux'
+import { createBrowserHistory } from 'history'
+import MainPage from '../pages/MainPage'
+import AboutPage from '../pages/AboutPage'
+import NotFoundPage from '../pages/NotFoundPage'
 
-const Routes = ({ history }) => (
-  <Router history={history}>
-    <Route path="/" component={App}>
-      <IndexRoute component={HomePage} />
-      <Route path="about" component={AboutPage} />
-    </Route>
-    <Route path="*" component={NotFoundPage} />
-  </Router>
+export const history = createBrowserHistory()
+
+const Routes = () => (
+  <ConnectedRouter history={history}>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={MainPage} />
+        <Route path="/about" component={AboutPage} />
+        <Route path="*" component={NotFoundPage} />
+      </Switch>
+    </BrowserRouter>
+  </ConnectedRouter>
 )
-
-Routes.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  history: PropTypes.object.isRequired,
-}
 
 export default Routes

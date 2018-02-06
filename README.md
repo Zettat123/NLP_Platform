@@ -1,21 +1,11 @@
-# Redux Web Template
+# Web application template
 
-`React` + `React-Router` + `Redux` + `Webpack` + `Sass` boilerplate.
-
-## Features
-
-- Hot reloading.
-- Code splitting by react-router and webpack.
-- Predictable state mutations.
-- Sass and PostCSS support.
-- CSS modules.
-- ESLint with Airbnb code style.
+`React` + `Redux` + `Webpack`
 
 ## How to use
 
-**[Yarn](https://yarnpkg.com)** is **strongly** recommended.
-
-1. Clone this repo
-2. `yarn`
-3. `yarn run start`
-4. Happy hacking!
+1. clone this repo
+2. `npm install`
+   *`Yarn` has been deprecated due to some bugs, so I use npm.*
+3. `npm start`
+4. Visit `localhost:3000` in browser

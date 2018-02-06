@@ -1,49 +1,32 @@
-/**
- * Create the store with asynchronously loaded reducers
- */
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunkMiddleware from 'redux-thunk'
+import logger from 'redux-logger'
 import reduxPromiseMiddleware from 'redux-promise-middleware'
-import createLogger from 'redux-logger'
 import { fromJS } from 'immutable'
 import { routerMiddleware } from 'react-router-redux'
 import createReducer from './reducers'
 
-const devtools = window.devToolsExtension || (() => noop => noop)
+// To activate Redux DevTools Extension.
+// @see https://github.com/zalmoxisus/redux-devtools-extension#usage
+const devTools = window.devToolsExtension || (() => noop => noop)
 
-let cachedStore = {}
-
-const configStore = (initialState = {}, history) => {
+const generateConfiguredStore = (initialState = {}, history) => {
   const middlewares = [
     thunkMiddleware,
-    createLogger(),
+    logger,
     routerMiddleware(history),
     reduxPromiseMiddleware(),
   ]
-  const enhancers = [applyMiddleware(...middlewares), devtools()]
+
+  const enhencers = [applyMiddleware(...middlewares), devTools()]
+
   const store = createStore(
     createReducer({}),
     fromJS(initialState),
-    compose(...enhancers)
+    compose(...enhencers)
   )
-
-  // Make reducers hot reloadable, see http://mxs.is/googmo
-  if (module.hot) {
-    const nextReducers = createReducer(store.asyncReducers)
-
-    store.replaceReducer(nextReducers)
-  }
-  // Initialize it with no other reducers
-  store.asyncReducers = {}
-
-  cachedStore = store
 
   return store
 }
 
-export const injectAsyncReducer = (name, asyncReducer) => {
-  cachedStore.asyncReducers[name] = asyncReducer
-  cachedStore.replaceReducer(createReducer(cachedStore.asyncReducers))
-}
-
-export default configStore
+export default generateConfiguredStore
