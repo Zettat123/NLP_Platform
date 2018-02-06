@@ -18,10 +18,10 @@ app.use(webpackHotMiddleware(compiler))
 
 app.listen(port, (error) => {
   if (error) {
-    // eslint-disable-next-lint no-console
-    console.log(error)
+    // eslint-disable-next-line no-console
+    console.error(error)
   } else {
-    // eslint-disable-next-lint no-console
-    console.log(`App is listening on port ${port} ...`)
+    // eslint-disable-next-line no-console
+    console.info(`App is listening on port ${port} ...`)
   }
 })
