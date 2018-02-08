@@ -46,6 +46,7 @@ module.exports = {
       pages: 'app/pages',
       selectors: 'app/selectors',
       styles: 'app/styles',
+      hocs: 'app/hocs',
     },
   },
   module: {

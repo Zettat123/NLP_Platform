@@ -54,7 +54,7 @@
   "settings": {
     "import/resolver": {
       "webpack": {
-        "config": "webpack/webpack.config.js"
+        "config": "webpack/webpack.common.js"
       }
     },
     "prettier/prettier": ["warn",{
