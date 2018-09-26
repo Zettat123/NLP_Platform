@@ -1,13 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import cx from 'classnames'
+import TableHead from 'components/TableHead'
 import styles from './MainPage.scss'
 
-const MainPage = () => (
-  <div>
-    <div className={cx(styles.text)}>This is MainPage</div>
-    <Link to="/about">ABOUT</Link>
-  </div>
-)
+class MainPage extends React.Component {
+  componentWillMount() {
+    // eslint-disable-next-line
+    console.log('Mounted')
+  }
+
+  render() {
+    return (
+      <div className={styles.root}>
+        <TableHead />
+      </div>
+    )
+  }
+}
 
 export default MainPage

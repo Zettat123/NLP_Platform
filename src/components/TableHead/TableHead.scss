@@ -1,0 +1,42 @@
+.root {
+  display: flex;
+  background: #c9c9c9;
+  width: 100%;
+}
+
+.headItem {
+  font-size: 1rem;
+  line-height: 2;
+  box-sizing: border-box;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+
+  & + & {
+    border-left: 1px solid #ffffff;
+  }
+}
+
+.no {
+  width: 6rem;
+}
+
+.text {
+  width: 24rem;
+}
+
+.keywords {
+  width: 16rem;
+}
+
+.category_first {
+  width: 12rem;
+}
+
+.category_second {
+  width: 12rem;
+}
+
+.polarity {
+  width: 8rem;
+}
