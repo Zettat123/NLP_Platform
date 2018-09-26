@@ -1,13 +1,14 @@
 {
-  "name": "Template",
+  "name": "NLP_Platform",
   "version": "0.0.1",
-  "description": "A React web template",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "start": "cross-env NODE_ENV=development node ./webpack/devServer.js",
-    "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js",
+    "build":
+      "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js",
     "prepush": "npm run lint"
   },
   "author": "Zetta",
