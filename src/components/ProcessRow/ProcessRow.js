@@ -1,6 +1,7 @@
 /*eslint-disable*/
 import React from 'react'
 import cx from 'classnames'
+import TextSelector from './TextSelector'
 import styles from './ProcessRow.scss'
 
 const testdata = {
@@ -17,6 +18,14 @@ const testdata = {
 }
 
 class ProcessRow extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      keyWordsValue: '',
+    }
+  }
+
   componentWillMount() {
     // TODO
   }
@@ -35,7 +44,9 @@ class ProcessRow extends React.Component {
     return (
       <div className={cx(styles.root, className)}>
         <div className={cx(styles.processItem, styles.no)}>{key}</div>
-        <div className={cx(styles.processItem, styles.text)}>{text}</div>
+        <div className={cx(styles.processItem, styles.text)}>
+          <TextSelector text={text} />
+        </div>
         <div className={cx(styles.processItem, styles.keywords)}>KEYWORDS</div>
         <div className={cx(styles.processItem, styles.target)}>{target}</div>
         <div className={cx(styles.processItem, styles.category_first)}>

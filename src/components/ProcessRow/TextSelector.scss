@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.wordItem {
+  background: #efefef;
+  line-height: 1.5;
+
+  & + & {
+    margin-left: 0.5rem;
+  }
+}
