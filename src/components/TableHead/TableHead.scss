@@ -22,21 +22,27 @@
 }
 
 .text {
-  width: 24rem;
+  min-width: 24rem;
+  flex-grow: 2;
 }
 
 .keywords {
-  width: 16rem;
+  min-width: 16rem;
+  flex-grow: 2;
+}
+
+.target {
+  width: 12rem;
 }
 
 .category_first {
-  width: 12rem;
+  width: 16rem;
 }
 
 .category_second {
-  width: 12rem;
+  width: 16rem;
 }
 
 .polarity {
-  width: 8rem;
+  width: 12rem;
 }
