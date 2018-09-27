@@ -12,7 +12,7 @@ class MainPage extends React.Component {
     super(props)
 
     this.state = {
-      csvData: null,
+      csvData: [],
       isUploading: false,
     }
   }
@@ -37,8 +37,6 @@ class MainPage extends React.Component {
 
   render() {
     const { csvData, isUploading } = this.state
-    // eslint-disable-next-line
-    console.log(csvData)
 
     return (
       <div className={styles.root}>
@@ -51,7 +49,7 @@ class MainPage extends React.Component {
         </div>
 
         <TableHead />
-        <ProcessRow />
+        {csvData.map(item => <ProcessRow key={item.key} data={item} />)}
       </div>
     )
   }

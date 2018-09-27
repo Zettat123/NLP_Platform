@@ -22,13 +22,12 @@
 }
 
 .text {
-  min-width: 24rem;
-  flex-grow: 2;
+  flex-basis: 24rem;
+  flex-grow: 1;
 }
 
 .keywords {
-  min-width: 16rem;
-  flex-grow: 2;
+  width: 32rem;
 }
 
 .target {
@@ -36,13 +35,13 @@
 }
 
 .category_first {
-  width: 16rem;
+  width: 12rem;
 }
 
 .category_second {
-  width: 16rem;
+  width: 12rem;
 }
 
 .polarity {
-  width: 12rem;
+  width: 6rem;
 }

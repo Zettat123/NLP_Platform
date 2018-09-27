@@ -1,11 +1,26 @@
 .root {
   display: flex;
+  align-items: flex-start;
   flex-wrap: wrap;
+  padding-left: 1rem;
+  padding-bottom: 0.5rem;
 }
 
 .wordItem {
   background: #efefef;
+  box-sizing: border-box;
+  padding: 0 0.25rem;
   line-height: 1.5;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: bolder;
+  border: none;
+  cursor: pointer;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
 
   & + & {
     margin-left: 0.5rem;

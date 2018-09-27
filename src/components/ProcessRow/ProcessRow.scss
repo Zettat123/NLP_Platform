@@ -1,16 +1,22 @@
 .root {
   display: flex;
   background: #fff;
+  box-sizing: border-box;
   width: 100%;
+
+  & + & {
+    border-top: 1px solid #000;
+  }
 }
 
 .processItem {
   font-size: 1rem;
-  line-height: 2;
   box-sizing: border-box;
-  padding: 0 1rem;
+  padding: 0.5rem 1rem;
   display: flex;
-  justify-content: center;
+  word-break: break-all;
+  word-wrap: break-word;
+  flex-shrink: 0;
 
   & + & {
     border-left: 1px solid #000;
@@ -19,16 +25,18 @@
 
 .no {
   width: 6rem;
+  justify-content: center;
 }
 
 .text {
-  min-width: 24rem;
-  flex-grow: 2;
+  flex-basis: 24rem;
+  flex-grow: 1;
+  justify-content: flex-start;
+  padding: 0;
 }
 
 .keywords {
-  min-width: 16rem;
-  flex-grow: 2;
+  width: 32rem;
 }
 
 .target {
@@ -36,13 +44,13 @@
 }
 
 .category_first {
-  width: 16rem;
+  width: 12rem;
 }
 
 .category_second {
-  width: 16rem;
+  width: 12rem;
 }
 
 .polarity {
-  width: 12rem;
+  width: 6rem;
 }

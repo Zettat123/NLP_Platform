@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import React from 'react'
 import styles from './TextSelector.scss'
 
@@ -8,16 +7,22 @@ class TextSelector extends React.Component {
   }
 
   render() {
-    const { text } = this.props
+    const { text, clickCallback } = this.props
 
     const words = text.split(' ')
-    console.log(words)
+
     return (
       <div className={styles.root}>
-        {words.map(word => (
-          <div className={styles.wordItem} key={word}>
+        {words.map((word, index) => (
+          <button
+            className={styles.wordItem}
+            // TODO: Find proper key
+            // eslint-disable-next-line react/no-array-index-key
+            key={`word-${index}`}
+            onClick={() => clickCallback(word)}
+          >
             {word}
-          </div>
+          </button>
         ))}
       </div>
     )
