@@ -13,6 +13,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 app.post('/get_csv_objects', upload.single('file'), (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
   console.log(req.file)
   const { path: filePath } = req.file
 

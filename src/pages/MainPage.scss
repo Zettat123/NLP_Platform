@@ -2,3 +2,21 @@
   display: flex;
   flex-direction: column;
 }
+
+.fileUploadBar {
+  margin: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.fileInput {
+  width: 28rem;
+}
+
+.spin {
+  margin-left: 2rem;
+
+  &.hide {
+    display: none;
+  }
+}

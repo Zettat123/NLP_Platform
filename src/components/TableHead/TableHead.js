@@ -14,14 +14,11 @@ const columns = [
 
 const TableHead = () => (
   <div className={styles.root}>
-    {columns.map(item => (
-      <div className={cx(styles.headItem, styles[item.name])}>
-        {item.displayName ? item.displayName : item.name}
+    {columns.map(({ name, displayName }) => (
+      <div className={cx(styles.headItem, styles[name])} key={name}>
+        {displayName || name}
       </div>
     ))}
-    {/* <div className={cx(styles.headItem, styles.no)}>No.</div>
-    <div className={cx(styles.headItem, styles.text)}>text</div>
-    <div className={cx(styles.headItem, styles.keywords)}>keywords</div> */}
   </div>
 )
 
