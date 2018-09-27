@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Spin } from 'antd'
 import FileInput from 'components/FileInput'
 import TableHead from 'components/TableHead'
+import ProcessRow from 'components/ProcessRow'
 import config from '../config'
 import styles from './MainPage.scss'
 
@@ -50,6 +51,7 @@ class MainPage extends React.Component {
         </div>
 
         <TableHead />
+        <ProcessRow />
       </div>
     )
   }

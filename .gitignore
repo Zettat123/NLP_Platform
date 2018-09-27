@@ -3,3 +3,4 @@ build
 dist
 *.log
 backend/Upload_Files/*.csv
+.DS_Store

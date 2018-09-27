@@ -1,0 +1,48 @@
+.root {
+  display: flex;
+  background: #fff;
+  width: 100%;
+}
+
+.processItem {
+  font-size: 1rem;
+  line-height: 2;
+  box-sizing: border-box;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+
+  & + & {
+    border-left: 1px solid #000;
+  }
+}
+
+.no {
+  width: 6rem;
+}
+
+.text {
+  min-width: 24rem;
+  flex-grow: 2;
+}
+
+.keywords {
+  min-width: 16rem;
+  flex-grow: 2;
+}
+
+.target {
+  width: 12rem;
+}
+
+.category_first {
+  width: 16rem;
+}
+
+.category_second {
+  width: 16rem;
+}
+
+.polarity {
+  width: 12rem;
+}
