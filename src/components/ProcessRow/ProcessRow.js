@@ -1,21 +1,12 @@
 import React from 'react'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Input } from 'antd'
+import propsToImmutable from 'hocs/propsToImmutable'
+import { updateRow } from 'actions/csvData'
 import TextSelector from './TextSelector'
 import styles from './ProcessRow.scss'
-
-// const testdata = {
-//   category_first: 'RESTAURANT',
-//   category_second: 'MISCELLANEOUS',
-//   from: '51',
-//   id: '1004293:0',
-//   key: '0',
-//   polarity: 'negative',
-//   rid: '1004293',
-//   target: 'place',
-//   text: 'Judging from previous posts this used to be a good place',
-//   to: '56',
-// }
 
 class ProcessRow extends React.Component {
   constructor(props) {
@@ -26,8 +17,23 @@ class ProcessRow extends React.Component {
     }
   }
 
-  componentWillMount() {
-    // TODO
+  shouldComponentUpdate(_, nextState) {
+    const { keywordsValue } = this.state
+    const { keywordsValue: nextKeywordsValue } = nextState
+
+    const { updateRow, data: { number } } = this.props
+
+    if (keywordsValue === nextKeywordsValue) {
+      return false
+    }
+    updateRow(number, 'keywords', nextKeywordsValue)
+    return true
+  }
+
+  handleKeywordsInputOnChange(e) {
+    const currentValue = e.target.value
+
+    this.setState({ keywordsValue: currentValue })
   }
 
   addWordToKeywords(word) {
@@ -39,20 +45,19 @@ class ProcessRow extends React.Component {
     if (trimmedWord === '') return
 
     const delimiter = ';'
+    const currentValue =
+      keywordsValue === ''
+        ? trimmedWord
+        : `${keywordsValue}${delimiter}${trimmedWord}`
 
-    this.setState({
-      keywordsValue:
-        keywordsValue === ''
-          ? trimmedWord
-          : `${keywordsValue}${delimiter}${trimmedWord}`,
-    })
+    this.setState({ keywordsValue: currentValue })
   }
 
   render() {
     const { className, data } = this.props
     const { keywordsValue } = this.state
     const {
-      key,
+      number,
       text,
       target,
       category_first: categoryFirst,
@@ -62,7 +67,7 @@ class ProcessRow extends React.Component {
 
     return (
       <div className={cx(styles.root, className)}>
-        <div className={cx(styles.processItem, styles.no)}>{key}</div>
+        <div className={cx(styles.processItem, styles.no)}>{number}</div>
         <div className={cx(styles.processItem, styles.text)}>
           <TextSelector
             text={text}
@@ -72,7 +77,7 @@ class ProcessRow extends React.Component {
         <div className={cx(styles.processItem, styles.keywords)}>
           <Input
             value={keywordsValue}
-            onChange={e => this.setState({ keywordsValue: e.target.value })}
+            onChange={e => this.handleKeywordsInputOnChange(e)}
           />
         </div>
         <div className={cx(styles.processItem, styles.target)}>{target}</div>
@@ -90,4 +95,9 @@ class ProcessRow extends React.Component {
   }
 }
 
-export default ProcessRow
+export default compose(
+  connect(null, {
+    updateRow,
+  }),
+  propsToImmutable
+)(ProcessRow)

@@ -19,11 +19,15 @@ app.post('/get_csv_objects', upload.single('file'), (req, res) => {
 
   new Promise((resolve, reject) => {
     const parser = csv.parse({ delimiter: ',', columns: true }, (err, data) => {
-      data.map((item) => {
-        (item.key = item['']), delete item['']
-      })
+      const newData = data.reduce((acc, cur) => {
+        const key = cur['']
+        delete cur['']
+        cur.number = key
+        cur.keywords = ''
+        return Object.assign({ [key]: cur }, acc)
+      }, {})
 
-      resolve(data)
+      resolve(newData)
     })
 
     fs.createReadStream(filePath).pipe(parser)
