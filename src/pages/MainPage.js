@@ -5,7 +5,7 @@ import axios from 'axios'
 import { Spin } from 'antd'
 import propsToImmutable from 'hocs/propsToImmutable'
 import { initialize } from 'actions/csvData'
-import { selectData } from 'selectors/selectCsvData'
+// import { selectData } from 'selectors/selectCsvData'
 import FileInput from 'components/FileInput'
 import TableHead from 'components/TableHead'
 import ProcessRow from 'components/ProcessRow'
@@ -17,6 +17,7 @@ class MainPage extends React.Component {
     super(props)
 
     this.state = {
+      keysArray: [],
       isUploading: false,
     }
   }
@@ -37,13 +38,12 @@ class MainPage extends React.Component {
       data: formData,
     }).then(({ data }) => {
       initialize(data)
-      this.setState({ isUploading: false })
+      this.setState({ isUploading: false, keysArray: Object.keys(data) })
     })
   }
 
   render() {
-    const { isUploading } = this.state
-    const { csvData } = this.props
+    const { isUploading, keysArray } = this.state
 
     return (
       <div className={styles.root}>
@@ -56,20 +56,16 @@ class MainPage extends React.Component {
         </div>
 
         <TableHead />
-        {Object.keys(csvData).map(item => (
-          <ProcessRow key={item} data={csvData[item]} />
-        ))}
+        {keysArray.map(item => <ProcessRow key={item} dataKey={item} />)}
       </div>
     )
   }
 }
 
-export default compose(
-  connect(
-    (state, props) => ({
-      csvData: selectData(state, props),
-    }),
-    { initialize }
-  ),
-  propsToImmutable
-)(MainPage)
+// eslint-disable-next-line
+export default compose(connect(null, { initialize }), propsToImmutable)(
+  MainPage)
+
+// (state, props) => ({
+//   csvData: selectData(state, props),
+// })
