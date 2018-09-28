@@ -7,7 +7,7 @@ const { generateCsvFile } = require('./generateCsvFile')
 
 const app = express()
 
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '10000kb' }))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.all('*', (req, res, next) => {
