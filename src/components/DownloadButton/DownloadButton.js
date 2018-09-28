@@ -13,21 +13,26 @@ class DownloadButton extends React.Component {
   componentWillMount() {}
 
   handleOnClick() {
-    const { initialData } = this.props
+    const { initialData, keywords } = this.props
 
     // eslint-disable-next-line
-    // Object.keys(keywords).map(
-    //   item => (initialData[item].keywords = keywords[item]))
-
-    // axios.post(`${config.backendURL}/generate_csv`, initialData)
+    Object.keys(keywords).map(
+      item => (initialData[item].keywords = keywords[item]))
 
     axios({
       method: 'post',
       url: `${config.backendURL}/generate_csv`,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json;charset=UTF-8',
       },
       data: initialData,
+    }).then(({ data: filePath }) => {
+      const aElement = document.createElement('a')
+      aElement.setAttribute(
+        'href',
+        `${config.backendURL}/download_csv?filePath=${filePath}`
+      )
+      aElement.click()
     })
   }
 

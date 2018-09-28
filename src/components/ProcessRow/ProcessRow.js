@@ -10,39 +10,11 @@ import TextSelector from './TextSelector'
 import styles from './ProcessRow.scss'
 
 class ProcessRow extends React.Component {
-  // constructor(props) {
-  //   super(props)
-
-  //   this.state = {
-  //     keywordsValue: '',
-  //   }
-  // }
-
-  shouldComponentUpdate() {
-    // eslint-disable-next-line
-    console.log(
-      `ProcessRow ${
-        this.props.data.number
-      } shouldComponentUpdate has been called`)
-    // const { keywordsValue } = this.state
-    // const { keywordsValue: nextKeywordsValue } = nextState
-
-    // const { updateRow, data: { number } } = this.props
-
-    // if (keywordsValue === nextKeywordsValue) {
-    //   return false
-    // }
-    // updateRow(number, 'keywords', nextKeywordsValue)
-    return true
-  }
-
   handleKeywordsInputOnChange(e) {
     const currentValue = e.target.value
 
     const { updateRow, data: { number } } = this.props
     updateRow(number, currentValue)
-
-    // this.setState({ keywordsValue: currentValue })
   }
 
   addWordToKeywords(word) {
@@ -61,12 +33,11 @@ class ProcessRow extends React.Component {
         : `${keywordsValue}${delimiter}${trimmedWord}`
 
     updateRow(number, currentValue)
-    // this.setState({ keywordsValue: currentValue })
   }
 
   render() {
     const { className, data, keywords: keywordsValue } = this.props
-    // const { keywordsValue } = this.state
+
     const {
       number,
       text,

@@ -3,12 +3,24 @@ const bodyParser = require('body-parser')
 const csv = require('csv')
 const fs = require('fs')
 const multer = require('multer')
-const generateCsvFile = require('./generateCsvFile')
+const { generateCsvFile } = require('./generateCsvFile')
 
 const app = express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+app.all('*', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  )
+  res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
+  res.header('X-Powered-By', ' 3.2.1')
+  res.header('Content-Type', 'application/json;charset=utf-8')
+  next()
+})
 
 const storage = multer.diskStorage({
   destination: `${__dirname}/UploadedFiles`,
@@ -18,7 +30,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 app.post('/get_csv_objects', upload.single('file'), (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*')
   console.log(req.file)
   const { path: filePath } = req.file
 
@@ -40,9 +51,12 @@ app.post('/get_csv_objects', upload.single('file'), (req, res) => {
 })
 
 app.post('/generate_csv', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.send(req.body)
-  // generateCsvFile(req.body).then(filePath => res.download(filePath))
+  generateCsvFile(req.body).then(filePath => res.send(filePath))
+})
+
+app.get('/download_csv', (req, res) => {
+  console.log('req.query is %o', req.query)
+  res.download(req.query.filePath)
 })
 
 app.listen(13579, () => console.log('Listening'))

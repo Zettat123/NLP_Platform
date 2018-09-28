@@ -5,7 +5,6 @@ import axios from 'axios'
 import { Spin } from 'antd'
 import propsToImmutable from 'hocs/propsToImmutable'
 import { initialize } from 'actions/csvData'
-// import { selectData } from 'selectors/selectCsvData'
 import FileInput from 'components/FileInput'
 import TableHead from 'components/TableHead'
 import ProcessRow from 'components/ProcessRow'
@@ -69,7 +68,3 @@ class MainPage extends React.Component {
 // eslint-disable-next-line
 export default compose(connect(null, { initialize }), propsToImmutable)(
   MainPage)
-
-// (state, props) => ({
-//   csvData: selectData(state, props),
-// })
