@@ -9,14 +9,11 @@
   align-items: center;
 }
 
-.fileInput {
-  width: 28rem;
+.spin {
+  margin-left: 1rem;
+  width: 6rem;
 }
 
-.spin {
-  margin-left: 2rem;
-
-  &.hide {
-    display: none;
-  }
+.fileInput {
+  width: 28rem;
 }

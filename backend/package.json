@@ -10,6 +10,7 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "csv": "^3.1.0",
     "express": "^4.16.3",
     "multer": "^1.4.0"

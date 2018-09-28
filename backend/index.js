@@ -1,9 +1,14 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const csv = require('csv')
 const fs = require('fs')
 const multer = require('multer')
+const generateCsvFile = require('./generateCsvFile')
 
 const app = express()
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 const storage = multer.diskStorage({
   destination: `${__dirname}/UploadedFiles`,
@@ -32,6 +37,12 @@ app.post('/get_csv_objects', upload.single('file'), (req, res) => {
 
     fs.createReadStream(filePath).pipe(parser)
   }).then(data => res.end(JSON.stringify(data)))
+})
+
+app.post('/generate_csv', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.send(req.body)
+  // generateCsvFile(req.body).then(filePath => res.download(filePath))
 })
 
 app.listen(13579, () => console.log('Listening'))

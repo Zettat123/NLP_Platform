@@ -9,6 +9,7 @@ import { initialize } from 'actions/csvData'
 import FileInput from 'components/FileInput'
 import TableHead from 'components/TableHead'
 import ProcessRow from 'components/ProcessRow'
+import DownloadButton from 'components/DownloadButton'
 import config from '../config'
 import styles from './MainPage.scss'
 
@@ -52,7 +53,10 @@ class MainPage extends React.Component {
             className={styles.fileInput}
             uploadFile={file => this.uploadCSVFile(file)}
           />
-          <Spin className={styles.spin} spinning={isUploading} />
+          <div className={styles.spin}>
+            <Spin spinning={isUploading} />
+          </div>
+          <DownloadButton />
         </div>
 
         <TableHead />
