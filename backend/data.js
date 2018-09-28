@@ -1,3 +1,8 @@
+const csv = require('csv')
+const { generateCsvFile } = require('./generateCsvFile')
+
+// const { stringfy } = csv
+
 const data = [
   {
     '': '0',
@@ -121,4 +126,26 @@ const newData = data.reduce((acc, cur) => {
   return Object.assign({ [key]: cur }, acc)
 }, {})
 
-console.log(newData)
+const columns = Object.keys(newData[0]).reduce(
+  (acc, cur) => Object.assign({ [cur]: cur }, acc),
+  {}
+)
+
+const nnData = []
+Object.keys(newData).map(key => nnData.push(newData[key]))
+
+generateCsvFile(newData).then(() => console.log('succ'))
+
+// csv.stringify(
+//   nnData,
+//   {
+//     delimiter: ',',
+//     header: true,
+//     columns,
+//   },
+//   (_, output) => {
+//     console.log(output)
+//   }
+// )
+
+// console.log(newData)
