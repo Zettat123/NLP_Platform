@@ -2,6 +2,6 @@ node_modules
 build
 dist
 *.log
-backend/Upload_Files/*.csv
-backend/Generated_Files/*.csv
+backend/UploadedFiles/*.csv
+backend/GeneratedFiles/*.csv
 .DS_Store
