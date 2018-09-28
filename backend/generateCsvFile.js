@@ -20,13 +20,17 @@ const generateCsvFile = data =>
         columns,
       },
       (_, output) => {
-        fs.writeFile(`./Generated_Files/${Date.now()}.csv`, output, (err) => {
-          if (err) {
-            console.error(err)
-          } else {
-            resolve()
+        fs.writeFile(
+          `${__dirname}/Generated_Files/${Date.now()}.csv`,
+          output,
+          (err) => {
+            if (err) {
+              console.error(err)
+            } else {
+              resolve()
+            }
           }
-        })
+        )
       }
     )
   })
