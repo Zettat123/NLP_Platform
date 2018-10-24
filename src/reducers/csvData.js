@@ -5,6 +5,7 @@ import { INITIALIZE, UPDATE_ROW } from 'actions/csvData'
 const initialState = fromJS({
   initialData: {},
   keywords: {},
+  not_keywords: {},
 })
 
 export default handleActions(
@@ -18,9 +19,16 @@ export default handleActions(
             (acc, cur) => Object.assign({ [cur]: '' }, acc),
             {}
           ))
+        )
+        .set(
+          'not_keywords',
+          fromJS(Object.keys(data).reduce(
+            (acc, cur) => Object.assign({ [cur]: '' }, acc),
+            {}
+          ))
         ),
-    [UPDATE_ROW]: (state, { payload: { number, value } }) =>
-      state.setIn(['keywords', number], value),
+    [UPDATE_ROW]: (state, { payload: { number, key, value } }) =>
+      state.setIn([key, number], value),
   },
   initialState
 )

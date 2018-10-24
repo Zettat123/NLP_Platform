@@ -5,7 +5,11 @@ import cx from 'classnames'
 import { Input } from 'antd'
 import propsToImmutable from 'hocs/propsToImmutable'
 import { updateRow } from 'actions/csvData'
-import { selectRow, selectKeywords } from 'selectors/selectCsvData'
+import {
+  selectRow,
+  selectKeywords,
+  selectNotKeywords,
+} from 'selectors/selectCsvData'
 import TextSelector from './TextSelector'
 import styles from './ProcessRow.scss'
 
@@ -32,11 +36,22 @@ class ProcessRow extends React.Component {
         ? trimmedWord
         : `${keywordsValue}${delimiter}${trimmedWord}`
 
-    updateRow(number, currentValue)
+    updateRow(number, 'keywords', currentValue)
+  }
+
+  handleOnChangeNotKeywordsValue(newValue) {
+    const { updateRow, data: { number } } = this.props
+
+    updateRow(number, 'not_keywords', newValue)
   }
 
   render() {
-    const { className, data, keywords: keywordsValue } = this.props
+    const {
+      className,
+      data,
+      keywords: keywordsValue,
+      not_keywords: notKeywordsValue,
+    } = this.props
 
     const {
       number,
@@ -62,6 +77,12 @@ class ProcessRow extends React.Component {
             onChange={e => this.handleKeywordsInputOnChange(e)}
           />
         </div>
+        <div className={cx(styles.processItem, styles.not_keywords)}>
+          <Input
+            value={notKeywordsValue}
+            onChange={e => this.handleOnChangeNotKeywordsValue(e.target.value)}
+          />
+        </div>
         <div className={cx(styles.processItem, styles.target)}>{target}</div>
         <div className={cx(styles.processItem, styles.category_first)}>
           {categoryFirst}
@@ -82,6 +103,7 @@ export default compose(
     (state, props) => ({
       data: selectRow(state, props.dataKey),
       keywords: selectKeywords(state, props.dataKey),
+      not_keywords: selectNotKeywords(state, props.dataKey),
     }),
     {
       updateRow,

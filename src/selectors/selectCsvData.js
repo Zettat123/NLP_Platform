@@ -12,6 +12,11 @@ export const selectAllKeywords = createSelector(
   csvData => csvData.get('keywords')
 )
 
+export const selectAllNotKeywords = createSelector(
+  selectCsvDataRowDomain,
+  csvData => csvData.get('not_keywords')
+)
+
 export const selectRow = (state, number) =>
   state
     .get('csvData')
@@ -22,4 +27,10 @@ export const selectKeywords = (state, number) =>
   state
     .get('csvData')
     .get('keywords')
+    .get(number)
+
+export const selectNotKeywords = (state, number) =>
+  state
+    .get('csvData')
+    .get('not_keywords')
     .get(number)

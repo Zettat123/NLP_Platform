@@ -41,6 +41,7 @@ const columns = {
   id: 'id',
   text: 'text',
   keywords: 'keywords',
+  not_keywords: 'not_keywords',
   category_first: 'category_first',
   category_second: 'category_second',
   polarity: 'polarity',

@@ -6,6 +6,7 @@ const columns = [
   { name: 'no', displayName: 'No.' },
   { name: 'text' },
   { name: 'keywords' },
+  { name: 'not_keywords' },
   { name: 'target' },
   { name: 'category_first' },
   { name: 'category_second' },

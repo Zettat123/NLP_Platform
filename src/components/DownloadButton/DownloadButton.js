@@ -5,7 +5,11 @@ import { connect } from 'react-redux'
 import { Button } from 'antd'
 import cx from 'classnames'
 import propsToImmutable from 'hocs/propsToImmutable'
-import { selectInitialData, selectAllKeywords } from 'selectors/selectCsvData'
+import {
+  selectInitialData,
+  selectAllKeywords,
+  selectAllNotKeywords,
+} from 'selectors/selectCsvData'
 import config from '../../config'
 import styles from './DownloadButton.scss'
 
@@ -13,11 +17,15 @@ class DownloadButton extends React.Component {
   componentWillMount() {}
 
   handleOnClick() {
-    const { initialData, keywords } = this.props
+    const { initialData, keywords, not_keywords: notKeywords } = this.props
 
     // eslint-disable-next-line
     Object.keys(keywords).map(
       item => (initialData[item].keywords = keywords[item]))
+
+    // eslint-disable-next-line
+    Object.keys(notKeywords).map(
+      item => (initialData[item].not_keywords = notKeywords[item]))
 
     axios({
       method: 'post',
@@ -53,6 +61,7 @@ export default compose(
     (state, props) => ({
       initialData: selectInitialData(state, props),
       keywords: selectAllKeywords(state, props),
+      not_keywords: selectAllNotKeywords(state, props),
     }),
     null
   ),
