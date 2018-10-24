@@ -18,7 +18,7 @@ class ProcessRow extends React.Component {
     const currentValue = e.target.value
 
     const { updateRow, data: { number } } = this.props
-    updateRow(number, currentValue)
+    updateRow(number, 'keywords', currentValue)
   }
 
   addWordToKeywords(word) {
