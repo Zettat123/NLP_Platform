@@ -5,6 +5,11 @@ import axios from 'axios'
 import { Spin } from 'antd'
 import propsToImmutable from 'hocs/propsToImmutable'
 import { initialize } from 'actions/csvData'
+import {
+  selectInitialData,
+  selectAllKeywords,
+  selectAllNotKeywords,
+} from 'selectors/selectCsvData'
 import FileInput from 'components/FileInput'
 import TableHead from 'components/TableHead'
 import ProcessRow from 'components/ProcessRow'
@@ -19,7 +24,39 @@ class MainPage extends React.Component {
     this.state = {
       keysArray: [],
       isUploading: false,
+      csvFileHash: '',
     }
+  }
+
+  checkHash() {
+    const { csvFileHash } = this.state
+
+    if (localStorage.getItem(csvFileHash)) {
+      // eslint-disable-next-line
+      console.log('This file has been loaded')
+    } else {
+      // eslint-disable-next-line
+      console.log('This is a new file')
+      window.setTimeout(() => {
+        localStorage.setItem(csvFileHash, this.generateFinalData())
+      }, 60000)
+    }
+  }
+
+  generateFinalData() {
+    const { initialData, keywords, not_keywords: notKeywords } = this.props
+
+    const finalData = Object.assign({}, initialData)
+
+    // eslint-disable-next-line
+    Object.keys(keywords).map(
+      item => (finalData[item].keywords = keywords[item]))
+
+    // eslint-disable-next-line
+    Object.keys(notKeywords).map(
+      item => (finalData[item].not_keywords = notKeywords[item]))
+
+    return finalData
   }
 
   uploadCSVFile(file) {
@@ -36,9 +73,11 @@ class MainPage extends React.Component {
         'Content-Type': 'multipart/form-data',
       },
       data: formData,
-    }).then(({ data }) => {
-      initialize(data)
-      this.setState({ isUploading: false, keysArray: Object.keys(data) })
+    }).then(({ data: { csv_data: csvData, hash } }) => {
+      initialize(csvData)
+      this.setState({ isUploading: false, keysArray: Object.keys(csvData) })
+      this.setState({ csvFileHash: hash })
+      this.checkHash()
     })
   }
 
@@ -55,7 +94,7 @@ class MainPage extends React.Component {
           <div className={styles.spin}>
             <Spin spinning={isUploading} />
           </div>
-          <DownloadButton />
+          <DownloadButton finalData={this.generateFinalData()} />
         </div>
 
         <TableHead />
@@ -65,6 +104,14 @@ class MainPage extends React.Component {
   }
 }
 
-// eslint-disable-next-line
-export default compose(connect(null, { initialize }), propsToImmutable)(
-  MainPage)
+export default compose(
+  connect(
+    (state, props) => ({
+      initialData: selectInitialData(state, props),
+      keywords: selectAllKeywords(state, props),
+      not_keywords: selectAllNotKeywords(state, props),
+    }),
+    { initialize }
+  ),
+  propsToImmutable
+)(MainPage)

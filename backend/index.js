@@ -47,7 +47,7 @@ app.post('/get_csv_objects', upload.single('file'), (req, res) => {
     })
 
     fs.createReadStream(filePath).pipe(parser)
-  }).then(data => res.end(JSON.stringify(data)))
+  }).then(data => res.end(JSON.stringify({ hash: '2333', csv_data: data })))
 })
 
 app.post('/generate_csv', (req, res) => {
