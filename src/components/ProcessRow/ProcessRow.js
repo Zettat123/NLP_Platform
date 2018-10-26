@@ -21,12 +21,20 @@ class ProcessRow extends React.Component {
     updateRow(number, 'keywords', currentValue)
   }
 
-  addWordToKeywords(word) {
+  addWordToKeywords(content, type) {
     const { keywords: keywordsValue } = this.props
     const { updateRow, data: { number } } = this.props
 
-    const reg = /\W+/
-    const trimmedWord = word.replace(reg, '')
+    let trimmedWord = ''
+    if (type === 1) {
+      // Get word by click
+      const patt = /\W+/
+      trimmedWord = content.replace(patt, '')
+    } else if (type === 2) {
+      // Get words from selection
+      const patt = /\n/g
+      trimmedWord = content.replace(patt, ' ')
+    }
 
     if (trimmedWord === '') return
 
@@ -67,8 +75,11 @@ class ProcessRow extends React.Component {
         <div className={cx(styles.processItem, styles.no)}>{number}</div>
         <div className={cx(styles.processItem, styles.text)}>
           <TextSelector
+            number={number}
             text={text}
-            clickCallback={word => this.addWordToKeywords(word)}
+            updateKeywords={(content, type) =>
+              this.addWordToKeywords(content, type)
+            }
           />
         </div>
         <div className={cx(styles.processItem, styles.keywords)}>

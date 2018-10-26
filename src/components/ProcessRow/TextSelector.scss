@@ -7,15 +7,15 @@
 }
 
 .wordItem {
-  background: #efefef;
+  // background: #efefef;
   box-sizing: border-box;
   padding: 0 0.25rem;
   line-height: 1.5;
-  margin-top: 0.5rem;
+  // margin-top: 0.5rem;
   font-size: 1rem;
   font-weight: bolder;
   border: none;
-  cursor: pointer;
+  // cursor: pointer;
 
   &:focus {
     border: none;
@@ -23,6 +23,6 @@
   }
 
   & + & {
-    margin-left: 0.5rem;
+    // margin-left: 0.5rem;
   }
 }

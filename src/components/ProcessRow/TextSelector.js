@@ -2,27 +2,37 @@ import React from 'react'
 import styles from './TextSelector.scss'
 
 class TextSelector extends React.Component {
-  componentWillMount() {
-    // TODO
+  handleOnKeyDown(e) {
+    const { updateKeywords } = this.props
+    if (e.which === 16) {
+      // Press F
+      updateKeywords(window.getSelection().toString(), 2)
+    }
   }
 
   render() {
-    const { text, clickCallback } = this.props
+    const { number, text, updateKeywords } = this.props
 
     const words = text.split(' ')
 
     return (
-      <div className={styles.root}>
+      // eslint-disable-next-line
+      <div
+        className={styles.root}
+        onKeyDown={e => this.handleOnKeyDown(e)}
+        tabIndex={number}
+      >
         {words.map((word, index) => (
-          <button
+          // eslint-disable-next-line
+          <span
             className={styles.wordItem}
             // TODO: Find proper key
             // eslint-disable-next-line react/no-array-index-key
             key={`word-${index}`}
-            onClick={() => clickCallback(word)}
+            onClick={() => updateKeywords(word, 1)}
           >
             {word}
-          </button>
+          </span>
         ))}
       </div>
     )
