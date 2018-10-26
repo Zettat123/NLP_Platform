@@ -22,8 +22,6 @@
 }
 
 .text {
-  // flex-basis: 32rem;
-  // flex-grow: 1;
   width: 32rem;
 }
 
@@ -36,17 +34,17 @@
 }
 
 .target {
-  width: 12rem;
+  width: 10rem;
 }
 
 .category_first {
-  width: 12rem;
+  width: 10rem;
 }
 
 .category_second {
-  width: 12rem;
+  width: 10rem;
 }
 
 .polarity {
-  width: 6rem;
+  flex-grow: 1;
 }
