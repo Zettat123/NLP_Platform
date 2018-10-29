@@ -2,14 +2,10 @@ import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import { Spin } from 'antd'
+import { Spin, Modal } from 'antd'
 import propsToImmutable from 'hocs/propsToImmutable'
 import { initialize } from 'actions/csvData'
-import {
-  selectInitialData,
-  selectAllKeywords,
-  selectAllNotKeywords,
-} from 'selectors/selectCsvData'
+import { selectCsvData } from 'selectors/selectCsvData'
 import FileInput from 'components/FileInput'
 import TableHead from 'components/TableHead'
 import ProcessRow from 'components/ProcessRow'
@@ -25,43 +21,67 @@ class MainPage extends React.Component {
       keysArray: [],
       isUploading: false,
       csvFileHash: '',
+      timeoutId: '',
     }
   }
 
-  checkHash() {
-    const { csvFileHash } = this.state
+  checkHash(csvData, csvFileHash) {
+    const { csvFileHash: oldHash, timeoutId } = this.state
+    const { initialize } = this.props
 
-    if (localStorage.getItem(csvFileHash)) {
+    // eslint-disable-next-line
+    const csvDataFromLocalStorage = JSON.parse(
+      localStorage.getItem(csvFileHash))
+
+    if (csvDataFromLocalStorage) {
       // eslint-disable-next-line
       console.log('This file has been loaded')
+      Modal.confirm({
+        title: '提示',
+        content: `该 csv 文件曾被处理过, 最后一次自动保存时间为:${
+          csvDataFromLocalStorage.latestUpdateTime
+        } 是否载入最后一次保存的数据?`,
+        onCancel: () => {
+          initialize(csvData)
+          this.setState({ isUploading: false, keysArray: Object.keys(csvData) })
+        },
+        onOk: () => {
+          initialize(csvDataFromLocalStorage.data)
+          this.setState({ isUploading: false, keysArray: Object.keys(csvData) })
+        },
+      })
     } else {
       // eslint-disable-next-line
       console.log('This is a new file')
-      window.setTimeout(() => {
-        localStorage.setItem(csvFileHash, this.generateFinalData())
+      initialize(csvData)
+      this.setState({ isUploading: false, keysArray: Object.keys(csvData) })
+    }
+
+    if (oldHash !== csvFileHash) {
+      clearTimeout(timeoutId)
+      const newTimeoutId = window.setTimeout(() => {
+        localStorage.setItem(
+          csvFileHash,
+          JSON.stringify({
+            data: this.generateFinalData(),
+            latestUpdateTime: Date(Date.now()).toLocaleString(),
+          })
+        )
       }, 60000)
+      this.setState({ timeoutId: newTimeoutId, csvFileHash })
     }
   }
 
   generateFinalData() {
-    const { initialData, keywords, not_keywords: notKeywords } = this.props
+    const { csvData } = this.props
 
-    const finalData = Object.assign({}, initialData)
-
-    // eslint-disable-next-line
-    Object.keys(keywords).map(
-      item => (finalData[item].keywords = keywords[item]))
-
-    // eslint-disable-next-line
-    Object.keys(notKeywords).map(
-      item => (finalData[item].not_keywords = notKeywords[item]))
+    const finalData = Object.assign({}, csvData)
 
     return finalData
   }
 
   uploadCSVFile(file) {
     this.setState({ isUploading: true })
-    const { initialize } = this.props
 
     const formData = new FormData()
     formData.append('file', file)
@@ -74,10 +94,7 @@ class MainPage extends React.Component {
       },
       data: formData,
     }).then(({ data: { csv_data: csvData, hash } }) => {
-      initialize(csvData)
-      this.setState({ isUploading: false, keysArray: Object.keys(csvData) })
-      this.setState({ csvFileHash: hash })
-      this.checkHash()
+      this.checkHash(csvData, hash)
     })
   }
 
@@ -107,9 +124,7 @@ class MainPage extends React.Component {
 export default compose(
   connect(
     (state, props) => ({
-      initialData: selectInitialData(state, props),
-      keywords: selectAllKeywords(state, props),
-      not_keywords: selectAllNotKeywords(state, props),
+      csvData: selectCsvData(state, props),
     }),
     { initialize }
   ),

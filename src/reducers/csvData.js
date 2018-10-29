@@ -3,32 +3,18 @@ import { fromJS } from 'immutable'
 import { INITIALIZE, UPDATE_ROW } from 'actions/csvData'
 
 const initialState = fromJS({
-  initialData: {},
-  keywords: {},
-  not_keywords: {},
+  data: {},
 })
 
 export default handleActions(
   {
-    [INITIALIZE]: (state, { payload: data }) =>
-      state
-        .set('initialData', fromJS(data))
-        .set(
-          'keywords',
-          fromJS(Object.keys(data).reduce(
-            (acc, cur) => Object.assign({ [cur]: '' }, acc),
-            {}
-          ))
-        )
-        .set(
-          'not_keywords',
-          fromJS(Object.keys(data).reduce(
-            (acc, cur) => Object.assign({ [cur]: '' }, acc),
-            {}
-          ))
-        ),
+    [INITIALIZE]: (state, { payload: baseData }) => {
+      // eslint-disable-next-line
+      console.log('Current baseData is: %o', baseData)
+      return state.set('data', fromJS(baseData))
+    },
     [UPDATE_ROW]: (state, { payload: { number, key, value } }) =>
-      state.setIn([key, number], value),
+      state.setIn(['data', number, key], value),
   },
   initialState
 )

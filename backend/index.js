@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const csv = require('csv')
 const fs = require('fs')
+const crypto = require('crypto')
 const multer = require('multer')
 const { generateCsvFile } = require('./generateCsvFile')
 
@@ -40,6 +41,7 @@ app.post('/get_csv_objects', upload.single('file'), (req, res) => {
         delete cur['']
         cur.number = key
         cur.keywords = ''
+        cur.not_keywords = ''
         return Object.assign({ [key]: cur }, acc)
       }, {})
 
@@ -47,7 +49,12 @@ app.post('/get_csv_objects', upload.single('file'), (req, res) => {
     })
 
     fs.createReadStream(filePath).pipe(parser)
-  }).then(data => res.end(JSON.stringify({ hash: '2333', csv_data: data })))
+  }).then((data) => {
+    const hash = crypto.createHash('sha256')
+    hash.update(JSON.stringify(data))
+    const hashResult = hash.digest('hex')
+    res.end(JSON.stringify({ hash: hashResult, csv_data: data }))
+  })
 })
 
 app.post('/generate_csv', (req, res) => {

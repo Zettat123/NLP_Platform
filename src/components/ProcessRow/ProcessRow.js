@@ -5,11 +5,7 @@ import cx from 'classnames'
 import { Input } from 'antd'
 import propsToImmutable from 'hocs/propsToImmutable'
 import { updateRow } from 'actions/csvData'
-import {
-  selectRow,
-  selectKeywords,
-  selectNotKeywords,
-} from 'selectors/selectCsvData'
+import { selectCsvRow } from 'selectors/selectCsvData'
 import TextSelector from './TextSelector'
 import styles from './ProcessRow.scss'
 
@@ -22,8 +18,7 @@ class ProcessRow extends React.Component {
   }
 
   addWordToKeywords(content, type) {
-    const { keywords: keywordsValue } = this.props
-    const { updateRow, data: { number } } = this.props
+    const { updateRow, data: { number, keywords: keywordsValue } } = this.props
 
     let trimmedWord = ''
     if (type === 1) {
@@ -54,16 +49,13 @@ class ProcessRow extends React.Component {
   }
 
   render() {
-    const {
-      className,
-      data,
-      keywords: keywordsValue,
-      not_keywords: notKeywordsValue,
-    } = this.props
+    const { className, data } = this.props
 
     const {
       number,
       text,
+      keywords: keywordsValue,
+      not_keywords: notKeywordsValue,
       target,
       category_first: categoryFirst,
       category_second: categorySecond,
@@ -112,9 +104,7 @@ class ProcessRow extends React.Component {
 export default compose(
   connect(
     (state, props) => ({
-      data: selectRow(state, props.dataKey),
-      keywords: selectKeywords(state, props.dataKey),
-      not_keywords: selectNotKeywords(state, props.dataKey),
+      data: selectCsvRow(state, props.dataKey),
     }),
     {
       updateRow,
